@@ -69,7 +69,7 @@ module OmniAuth
       end
 
       def callback_phase
-        client.redirect_uri = client_options.redirect_uri
+        client.redirect_uri = callback_url
         client.authorization_code = authorization_code
         access_token
         super
@@ -80,15 +80,18 @@ module OmniAuth
       end
 
       def authorize_uri
-        client.redirect_uri = client_options.redirect_uri
+        client.redirect_uri = callback_url
         client.authorization_uri(
           response_type: options.response_type,
           scope: options.scope,
-          nonce: nonce,
         )
       end
 
       private
+
+      def callback_url
+        client_options.redirect_uri || super
+      end
 
       def user_info
         @user_info ||= access_token.userinfo!
