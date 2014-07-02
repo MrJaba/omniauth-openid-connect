@@ -48,7 +48,7 @@ module OmniAuth
       end
 
       extra do
-        { raw_info: user_info.raw_attributes }
+        { raw_info: user_info.as_json(:skip_validation => true) }
       end
 
       credentials do
@@ -98,7 +98,7 @@ module OmniAuth
       end
 
       def access_token
-        @access_token ||= client.access_token!
+        @access_token ||= client.access_token!(:client_auth_method => :query)
       end
 
       def client_options
