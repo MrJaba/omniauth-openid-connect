@@ -81,10 +81,10 @@ module OmniAuth
 
       def authorize_uri
         client.redirect_uri = callback_url
-        client.authorization_uri(
-          response_type: options.response_type,
-          scope: options.scope,
-        )
+        url_params = {response_type: options.response_type,
+                      scope: options.scope}
+        url_params.merge({hd: options.domain}) if options.domain
+        client.authorization_uri(url_params)
       end
 
       private
