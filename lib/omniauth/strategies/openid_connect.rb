@@ -83,7 +83,7 @@ module OmniAuth
         client.redirect_uri = callback_url
         url_params = {response_type: options.response_type,
                       scope: options.scope}
-        url_params.merge({hd: options.domain}) if options.domain
+        url_params.merge!({hd: client_options.domain}) if client_options.domain
         client.authorization_uri(url_params)
       end
 
